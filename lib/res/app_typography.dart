@@ -25,13 +25,6 @@ abstract class AppTypography {
     color: AppColors.buttonTextColor,
   );
 
-  static const text16RegularTitle = TextStyle(
-    fontSize: 16,
-    height: 1.25,
-    fontWeight: FontWeight.w600,
-    color: AppColors.ticketTitleColor,
-  );
-
   static const text16RegularDescription = TextStyle(
     fontSize: 16,
     height: 1.25,
@@ -44,6 +37,13 @@ abstract class AppTypography {
     height: 1.25,
     fontWeight: FontWeight.w600,
     color: AppColors.backgroundColor,
+  );
+
+  static const text14RegularTitle = TextStyle(
+    fontSize: 14,
+    height: 1.25,
+    fontWeight: FontWeight.w600,
+    color: AppColors.ticketTitleColor,
   );
 
   static const text14Light = TextStyle(

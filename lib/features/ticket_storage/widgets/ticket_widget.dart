@@ -9,6 +9,8 @@ import '../../../res/app_colors.dart';
 import '../../../res/app_strings.dart';
 import '../../../res/app_typography.dart';
 
+
+/// Виджет билета
 class TicketWidget extends StatefulWidget {
   final String title;
   final String url;
@@ -55,12 +57,12 @@ class _TicketWidgetState extends State<TicketWidget> {
             children: [
               Text(
                 widget.title,
-                style: AppTypography.text16RegularTitle,
+                style: AppTypography.text14RegularTitle,
               ),
               const SizedBox(height: 5),
               SizedBox(
                 height: 3,
-                width: size.width / 1.5,
+                width: size.width / 1.6,
                 child: LinearProgressIndicator(
                   value: _progress,
                   backgroundColor: AppColors.appGrey,
