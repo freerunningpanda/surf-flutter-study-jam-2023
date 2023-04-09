@@ -26,7 +26,6 @@ class _TicketWidgetState extends State<TicketWidget> {
     return SizedBox(
       width: size.width,
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const SizedBox(width: 16),
           const Icon(
@@ -71,21 +70,24 @@ class _TicketWidgetState extends State<TicketWidget> {
     );
   }
 
+  // Метод открытия файла
   Future openFile({required String url, String? fileName}) async {
     final file = await downloadFile(url, fileName!);
+    /// Проверяем если наш файл не Null
     if (file == null) return;
 
     debugPrint('Path: ${file.path}');
-
+    /// Мы можем открыть этот файл
     OpenFile.open(file.path);
   }
 
   /// Скачать файл с приватную папку невидимую для пользователя
   Future<File?> downloadFile(String url, String name) async {
     final appStorage = await getApplicationDocumentsDirectory();
-    final file = File('${appStorage.path}/$name');
+    final file = File('${appStorage.path}/$name'); // Здесь храним наш файл
 
     try {
+      // Скачиваем файл
       final response = await Dio().get(
         url,
         options: Options(
@@ -94,9 +96,11 @@ class _TicketWidgetState extends State<TicketWidget> {
           receiveTimeout: const Duration(seconds: 20),
         ),
       );
-
+      
+      // Открываем файл в режиме записи и записываем в него данные
       final raf = file.openSync(mode: FileMode.write);
       raf.writeFromSync(response.data);
+      // Завершаем процесс записи содержимого из response.data. Освобождаем ресурсы
       await raf.close();
 
       return file;
