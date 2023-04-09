@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/model/ticket.dart';
+import '../../../data/storage/tickets.dart';
 import '../widgets/ticket_widget.dart';
 
 class TicketsScreen extends StatefulWidget {
@@ -11,25 +11,15 @@ class TicketsScreen extends StatefulWidget {
 }
 
 class _TicketsScreenState extends State<TicketsScreen> {
-  List<Ticket> list = [
-    Ticket(title: 'Ticket 1')
-  ];
+  final list = Storage.list;
 
   @override
   Widget build(BuildContext context) {
-    // return ListView(
-    //   children: const [
-    //     SizedBox(
-    //       height: 20,
-    //     ),
-    //     TicketWidget(title: 'Ticket 1'),
-    //   ],
-    // );
     return ListView.builder(
-      itemCount: list.length,
-      itemBuilder: (_, index) {
-      final ticket = list[index];
-      return TicketWidget(title: ticket.title);
-    });
+        itemCount: list.length,
+        itemBuilder: (_, index) {
+          final ticket = list[index];
+          return TicketWidget(title: ticket.title);
+        });
   }
 }

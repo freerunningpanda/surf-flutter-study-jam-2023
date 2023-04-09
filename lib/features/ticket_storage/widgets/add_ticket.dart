@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:surf_flutter_study_jam_2023/data/model/ticket.dart';
 import 'package:surf_flutter_study_jam_2023/res/app_colors.dart';
 
+import '../../../data/storage/tickets.dart';
 import '../../../res/app_strings.dart';
 import '../../../res/app_typography.dart';
 
@@ -89,9 +91,14 @@ class _AddTicketState extends State<AddTicket> {
 }
 
 /// Виджет кнопки "Добавить"
-class _AddButton extends StatelessWidget {
+class _AddButton extends StatefulWidget {
   const _AddButton({Key? key}) : super(key: key);
 
+  @override
+  State<_AddButton> createState() => _AddButtonState();
+}
+
+class _AddButtonState extends State<_AddButton> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -120,7 +127,12 @@ class _AddButton extends StatelessWidget {
             type: MaterialType.transparency,
             child: InkWell(
               borderRadius: radius,
-              onTap: () {},
+              onTap: () {
+                Storage.list.add(
+                  Ticket(title: 'Ticket 2'),
+                );
+                Navigator.pop(context);
+              },
             ),
           ),
         ),
