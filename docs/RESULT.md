@@ -44,47 +44,33 @@ https://user-images.githubusercontent.com/91142494/230793190-6000a343-7528-4d57-
 https://user-images.githubusercontent.com/91142494/230793216-dac5fe2b-9391-4b2c-93e3-667ed04f562f.mov
 
 Скриншоты:
+1. Пустой стэйт. 2. Демонстрация неактивной кнопки "Добавить". 3. Валидатор - пустое поле.
+<div style="display: flex;">
+  <img src="https://user-images.githubusercontent.com/91142494/230793259-661e57d0-d409-43f3-905e-a6a881bda581.png" width="30%">
+  <img src="https://user-images.githubusercontent.com/91142494/230793306-5f069a53-6fbe-4e12-9220-8c1853abd61c.png" width="30%">
+  <img src="https://user-images.githubusercontent.com/91142494/230793343-1ca4c13e-9ef4-48e6-b899-149d926b0cbc.png" width="30%">
+</div>
 
-1. Пустой стэйт:
+4. Валидатор - невалидное значение. 5. Валидатор - валидное значение. Кнопка "Добавить" активна. 6. Автоподстановка текста если он содержит ссылку на pdf файл.
+<div style="display: flex;">
+  <img src="https://user-images.githubusercontent.com/91142494/230793385-e232fb78-2f8a-4d36-959b-a035353be95f.png" width="30%">
+  <img src="https://user-images.githubusercontent.com/91142494/230793410-cad1a8ce-e345-457f-9e87-dbc09efa0f41.png" width="30%">
+  <img src="https://user-images.githubusercontent.com/91142494/230793463-a267cf5f-fc91-4cb8-96b9-d8af08d794cb.png" width="30%">
+</div>
 
-![Screenshot_1681062305](https://user-images.githubusercontent.com/91142494/230793259-661e57d0-d409-43f3-905e-a6a881bda581.png)
 
-2. Демонстрация неактивной кнопки "Добавить":
+7. Демонстрация снэкбара об успешном добавлении файла для скачивания. 8. Демонстрация нескольких файлов готовых к скачиванию. 9. Демонстрация открытого pdf файла.
+<div style="display: flex;">
+  <img src="https://user-images.githubusercontent.com/91142494/230793520-02b67dcb-e5e7-425f-93e8-d3d1c03e619f.png" width="30%">
+  <img src="https://user-images.githubusercontent.com/91142494/230793561-219cfe7c-d8d1-4f91-b1bc-9187d27f52be.png" width="30%">
+  <img src="https://user-images.githubusercontent.com/91142494/230793584-790b6800-8713-4265-8ff8-696a9298e9b5.png" width="30%">
+</div>
 
-![Screenshot_1681062319](https://user-images.githubusercontent.com/91142494/230793306-5f069a53-6fbe-4e12-9220-8c1853abd61c.png)
-
-3. Валидатор - пустое поле:
-
-![Screenshot_1681062333](https://user-images.githubusercontent.com/91142494/230793343-1ca4c13e-9ef4-48e6-b899-149d926b0cbc.png)
-
-4. Валидатор - невалидное значение:
-
-![Screenshot_1681062343](https://user-images.githubusercontent.com/91142494/230793385-e232fb78-2f8a-4d36-959b-a035353be95f.png)
-
-5. Валидатор - валидное значение. Кнопка "Добавить" активна:
-
-![Screenshot_1681062378](https://user-images.githubusercontent.com/91142494/230793410-cad1a8ce-e345-457f-9e87-dbc09efa0f41.png)
-
-6. Автоподстановка текста если он содержит ссылку на pdf файл:
-
-![Screenshot_1681062414](https://user-images.githubusercontent.com/91142494/230793463-a267cf5f-fc91-4cb8-96b9-d8af08d794cb.png)
-
-7. Демонстрация снэкбара об успешном добавлении файла для скачивания:
-
-![Screenshot_1681062436](https://user-images.githubusercontent.com/91142494/230793520-02b67dcb-e5e7-425f-93e8-d3d1c03e619f.png)
-
-8. Демонстрация нескольких файлов готовых к скачиванию:
-
-![Screenshot_1681062747](https://user-images.githubusercontent.com/91142494/230793561-219cfe7c-d8d1-4f91-b1bc-9187d27f52be.png)
-
-9. Демонстрация открытого pdf файла
-
-![Screenshot_1681062765](https://user-images.githubusercontent.com/91142494/230793584-790b6800-8713-4265-8ff8-696a9298e9b5.png)
 
 10. Демонстрация процессов (ожидает, загружается, остановлен, загружен)
-
-![Screenshot_1681062825](https://user-images.githubusercontent.com/91142494/230793626-94bcd743-cb6c-4a9d-a18f-02d749b31c8a.png)
-
+<div style="display: flex;">
+  <img src="https://user-images.githubusercontent.com/91142494/230793626-94bcd743-cb6c-4a9d-a18f-02d749b31c8a.png" width="30%">
+</div>
 
 
 
