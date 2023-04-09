@@ -3,6 +3,7 @@ import 'package:surf_flutter_study_jam_2023/res/app_colors.dart';
 
 import '../../../res/app_strings.dart';
 import '../../../res/app_typography.dart';
+import 'add_ticket.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({Key? key}) : super(key: key);
@@ -40,7 +41,12 @@ class AddButton extends StatelessWidget {
             type: MaterialType.transparency,
             child: InkWell(
               borderRadius: radius,
-              onTap: () {},
+              onTap: () async {
+                await showModalBottomSheet(
+                  context: context,
+                  builder: (_) => const AddTicket(),
+                );
+              },
             ),
           ),
         ),
