@@ -19,6 +19,10 @@ class TicketWidget extends StatefulWidget {
 }
 
 class _TicketWidgetState extends State<TicketWidget> {
+  bool _isDownloadStarted = false;
+
+  bool _isDownloadFinish = false;
+
   double _progress = 0.0;
 
   @override
@@ -54,8 +58,12 @@ class _TicketWidgetState extends State<TicketWidget> {
               ),
               const SizedBox(height: 5),
               // const Text('${AppStrings.loading} 0.0 ${AppStrings.from} 0.0',
-              const Text(
-                AppStrings.waiting,
+              // const Text(
+              //   AppStrings.waiting,
+              //   style: AppTypography.text16RegularDescription,
+              // ),
+              Text(
+                '${AppStrings.loading} ${(_progress * 100).toStringAsFixed(1)}% ${AppStrings.from} 100%',
                 style: AppTypography.text16RegularDescription,
               ),
             ],
