@@ -81,7 +81,7 @@ class _TicketWidgetState extends State<TicketWidget> {
           ),
           const SizedBox(width: 14),
           GestureDetector(
-            onTap: () => openFile(fileName: widget.title, url: widget.url),
+            onTap: _isDownloadFinished ? null : () => openFile(fileName: widget.title, url: widget.url),
             child: Column(
               children: [
                 if (!_isDownloadStarted)
@@ -131,13 +131,12 @@ class _TicketWidgetState extends State<TicketWidget> {
       setState(() {
         _isDownloadStarted = true;
       });
-      int totalSizeInBytes = 0;
       final response = await Dio().get(
         url,
         options: Options(
           responseType: ResponseType.bytes,
           followRedirects: false,
-          receiveTimeout: const Duration(seconds: 20),
+          receiveTimeout: const Duration(seconds: 60),
         ),
         onReceiveProgress: (count, total) {
           if (total != -1) {
@@ -147,7 +146,6 @@ class _TicketWidgetState extends State<TicketWidget> {
               _progress = count / total;
             });
           }
-          totalSizeInBytes = total;
         },
       );
       setState(() {
