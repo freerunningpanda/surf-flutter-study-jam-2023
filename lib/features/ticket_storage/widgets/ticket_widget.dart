@@ -82,9 +82,24 @@ class _TicketWidgetState extends State<TicketWidget> {
           const SizedBox(width: 14),
           GestureDetector(
             onTap: () => openFile(fileName: widget.title, url: widget.url),
-            child: const Icon(
-              Icons.pause_circle_outline,
-              color: AppColors.ticketTitleColor,
+            child: Column(
+              children: [
+                if (!_isDownloadStarted)
+                  const Icon(
+                    Icons.cloud_download_outlined,
+                    color: AppColors.ticketTitleColor,
+                  ),
+                if (_progress > 0.0 && !_isDownloadFinished)
+                  const Icon(
+                    Icons.pause_circle_outline,
+                    color: AppColors.ticketTitleColor,
+                  ),
+                if (_isDownloadFinished)
+                  const Icon(
+                    Icons.cloud_done,
+                    color: AppColors.ticketTitleColor,
+                  ),
+              ],
             ),
           ),
           const SizedBox(width: 16),
