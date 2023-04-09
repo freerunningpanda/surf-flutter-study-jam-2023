@@ -7,6 +7,7 @@ import '../data/storage/tickets.dart';
 part 'add_ticket_event.dart';
 part 'add_ticket_state.dart';
 
+// Блок, отвечающий за добавление билета в список
 class AddTicketBloc extends Bloc<AddTicketEvent, AddTicketState> {
   AddTicketBloc() : super(AddTicketState(listLength: 0, ticketList: Storage.list)) {
     on<AddTicketEvent>((event, emit) {
