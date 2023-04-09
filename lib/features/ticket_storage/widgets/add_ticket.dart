@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:surf_flutter_study_jam_2023/data/model/ticket.dart';
 import 'package:surf_flutter_study_jam_2023/res/app_colors.dart';
@@ -23,6 +24,22 @@ class _AddTicketState extends State<AddTicket> {
   final _formKey = GlobalKey<FormState>();
   bool isPressed = false;
   bool isValidate = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    getClipboardData().then((String? value) {
+      if (value != null && value.endsWith('.pdf')) {
+        controller.text = value;
+      }
+    });
+  }
+
+  Future<String?> getClipboardData() async {
+    ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    return data?.text;
+  }
 
   @override
   Widget build(BuildContext context) {
