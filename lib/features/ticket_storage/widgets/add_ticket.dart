@@ -23,8 +23,6 @@ class _AddTicketState extends State<AddTicket> {
   final _formKey = GlobalKey<FormState>();
   bool isPressed = false;
 
-  final checkUrl = RegExp(r'^(?:http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(?:\/[\w\-\.\/]*)*\/?$');
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -116,12 +114,18 @@ class _AddTicketState extends State<AddTicket> {
     );
   }
 
+  /// Валидатор ссылок
   String? validator(String? value) {
+    const String pattern = r'^(?:http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(?:\/[\w\-\.\/]*)*\/?$';
+    RegExp regExp = RegExp(pattern);
+    // Если поле пустое - выдаст ошибку
     if (value == null || value.isEmpty) {
-      return 'Please enter a URL';
+      return AppStrings.enterUrl;
     }
-    if (!checkUrl.hasMatch(value)) {
-      return 'Invalid URL format';
+
+    // Если символы не соответствуют структуре url - выдаст ошибку
+    if (!regExp.hasMatch(value)) {
+      return AppStrings.validateUrl;
     }
     return null;
   }
