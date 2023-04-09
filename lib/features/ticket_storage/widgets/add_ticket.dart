@@ -20,10 +20,10 @@ class AddTicket extends StatefulWidget {
 }
 
 class _AddTicketState extends State<AddTicket> {
-  final controller = TextEditingController();
+  final _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool isPressed = false;
-  bool isValidate = false;
+  bool _isPressed = false;
+  bool _isValidate = false;
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _AddTicketState extends State<AddTicket> {
 
     getClipboardData().then((String? value) {
       if (value != null && value.endsWith('.pdf')) {
-        controller.text = value;
+        _controller.text = value;
       }
     });
   }
@@ -50,7 +50,7 @@ class _AddTicketState extends State<AddTicket> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 22.0),
       width: size.width,
-      height: isPressed ? size.height / 1.3 : size.height / 2.9,
+      height: _isPressed ? size.height / 1.3 : size.height / 2.9,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: radius,
@@ -74,7 +74,7 @@ class _AddTicketState extends State<AddTicket> {
             ),
             TextFormField(
               key: const Key('url'),
-              controller: controller,
+              controller: _controller,
               validator: validator,
               decoration: InputDecoration(
                 label: const Text(
@@ -92,12 +92,13 @@ class _AddTicketState extends State<AddTicket> {
                   borderRadius: textFieldRadius,
                 ),
               ),
-              // onChanged: (value) => controller.text = value,
+              onChanged: (value) => validator(_controller.text),
               onTap: () {
                 /// Для смены размера боттомшита при нажатии на текстовое поле
+                validator(_controller.text);
                 setState(
                   () {
-                    isPressed = true;
+                    _isPressed = true;
                   },
                 );
               },
@@ -105,8 +106,8 @@ class _AddTicketState extends State<AddTicket> {
                 /// Для возврата размера боттомшита при отправке данных
                 setState(
                   () {
-                    isPressed = false;
-                    isValidate = false;
+                    _isPressed = false;
+                    _isValidate = false;
                   },
                 );
 
@@ -135,8 +136,9 @@ class _AddTicketState extends State<AddTicket> {
             ),
             const SizedBox(height: 30),
             _AddButton(
-              url: controller.text,
-              isValidate: isValidate,
+              url: _controller.text,
+              isValidate: _isValidate,
+              isPressed: _isPressed,
             ),
           ],
         ),
@@ -152,13 +154,13 @@ class _AddTicketState extends State<AddTicket> {
     // Если символы соответствуют структуре url - Ок
     if (regExp.hasMatch(value ?? '')) {
       setState(() {
-        isValidate = true;
+        _isValidate = true;
       });
     }
     // Если поле пустое - выдаст ошибку
     if (value == null || value.isEmpty) {
       setState(() {
-        isValidate = false;
+        _isValidate = false;
       });
       return AppStrings.enterUrl;
     }
@@ -166,7 +168,7 @@ class _AddTicketState extends State<AddTicket> {
     // Если символы не соответствуют структуре url - выдаст ошибку
     if (!regExp.hasMatch(value)) {
       setState(() {
-        isValidate = false;
+        _isValidate = false;
       });
       return AppStrings.validateUrl;
     }
@@ -178,10 +180,13 @@ class _AddTicketState extends State<AddTicket> {
 class _AddButton extends StatelessWidget {
   final String url;
   final bool isValidate;
+  final bool isPressed;
+
   const _AddButton({
     Key? key,
     required this.url,
     required this.isValidate,
+    required this.isPressed,
   }) : super(key: key);
 
   @override
@@ -189,21 +194,57 @@ class _AddButton extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final radius = BorderRadius.circular(50.0);
 
-    return SizedBox(
-      width: size.width / 2.5,
-      height: size.height / 14,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: radius,
-          color: isValidate ? AppColors.ticketTitleColor : AppColors.appGrey,
-        ),
-        child: const Center(
-          child: Text(
-            AppStrings.add,
-            style: AppTypography.text16RegularBtnWhite,
+    return Stack(
+      children: [
+        SizedBox(
+          width: size.width / 2.5,
+          height: size.height / 14,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: radius,
+              color: isValidate ? AppColors.ticketTitleColor : AppColors.appGrey,
+            ),
+            child: const Center(
+              child: Text(
+                AppStrings.add,
+                style: AppTypography.text16RegularBtnWhite,
+              ),
+            ),
           ),
         ),
-      ),
+        Positioned.fill(
+            child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            borderRadius: radius,
+            onTap: isValidate
+                ? () {
+                    final uri = Uri.parse(url);
+
+                    /// Формируем название из конечного пути ссылки
+                    final ticketName = uri.pathSegments.last;
+                    Storage.list.add(
+                      Ticket(
+                        fileName: ticketName,
+                        url: url,
+                      ),
+                    );
+                    context.read<AddTicketBloc>().add(
+                          AddTicketEvent(ticketList: Storage.list),
+                        );
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(AppStrings.succesAddUrl),
+                      ),
+                    );
+                    isPressed;
+                    isValidate;
+                  }
+                : null,
+          ),
+        )),
+      ],
     );
   }
 }
