@@ -4,6 +4,7 @@ import '../../res/app_colors.dart';
 import '../../res/app_strings.dart';
 import '../../res/app_typography.dart';
 import 'screens/empty_screen.dart';
+import 'widgets/add_button.dart';
 
 
 /// Экран “Хранения билетов”.
@@ -18,10 +19,11 @@ class TicketStoragePage extends StatelessWidget {
         backgroundColor: AppColors.appBarColor,
         title: const Text(
           AppStrings.ticketsStorage,
-          style: AppTypography.textText22Regular,
+          style: AppTypography.text22Regular,
         ),
       ),
       body: const EmptyScreen(),
+      floatingActionButton: const AddButton(),
     );
   }
 }

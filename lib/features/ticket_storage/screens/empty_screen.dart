@@ -13,7 +13,7 @@ class EmptyScreen extends StatelessWidget {
     return const Center(
       child: Text(
         AppStrings.noTickets,
-        style: AppTypography.textText16Regular,
+        style: AppTypography.text16Regular,
       ),
     );
   }
