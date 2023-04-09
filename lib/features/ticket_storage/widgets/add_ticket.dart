@@ -27,7 +27,6 @@ class _AddTicketState extends State<AddTicket> {
       padding: const EdgeInsets.symmetric(horizontal: 22.0),
       width: size.width,
       height: isPressed ? size.height / 1.3 : size.height / 2.9,
-      // height: 500,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: radius,
@@ -49,19 +48,23 @@ class _AddTicketState extends State<AddTicket> {
           ),
           TextFormField(
             decoration: InputDecoration(
-              // hintText: widget.hintText,
-              hintStyle: AppTypography.text16Regular,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              label: const Text(
+                AppStrings.enterUrl,
+                style: AppTypography.text14Light,
+              ),
+              hintText: AppStrings.enterUrl,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20),
               focusedBorder: OutlineInputBorder(
-                // borderSide: BorderSide(width: 2, color: widget.theme.sliderTheme.overlayColor as Color),
+                borderSide: const BorderSide(width: 2, color: AppColors.buttonTextColor),
                 borderRadius: textFieldRadius,
               ),
               enabledBorder: OutlineInputBorder(
-                // borderSide: BorderSide(color: widget.theme.sliderTheme.overlayColor as Color),
+                borderSide: const BorderSide(color: AppColors.appGrey),
                 borderRadius: textFieldRadius,
               ),
             ),
             onTap: () {
+              /// Для смены размера боттомшита при нажатии на текстовое поле
               setState(
                 () {
                   isPressed = true;
@@ -69,6 +72,7 @@ class _AddTicketState extends State<AddTicket> {
               );
             },
             onFieldSubmitted: (value) {
+              /// Для возврата размера боттомшита при отправке данных
               setState(
                 () {
                   isPressed = false;
@@ -84,6 +88,7 @@ class _AddTicketState extends State<AddTicket> {
   }
 }
 
+/// Виджет кнопки "Добавить"
 class _AddButton extends StatelessWidget {
   const _AddButton({Key? key}) : super(key: key);
 

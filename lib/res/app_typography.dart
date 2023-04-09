@@ -31,4 +31,18 @@ abstract class AppTypography {
     fontWeight: FontWeight.w600,
     color: AppColors.backgroundColor,
   );
+
+  static const text14Light = TextStyle(
+    fontSize: 14,
+    height: 1.25,
+    fontWeight: FontWeight.w400,
+    color: AppColors.appGrey,
+  );
+
+  static const text12Light = TextStyle(
+    fontSize: 14,
+    height: 1.25,
+    fontWeight: FontWeight.w400,
+    color: AppColors.appGrey,
+  );
 }
