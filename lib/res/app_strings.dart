@@ -1,3 +1,5 @@
+/// Файл строк.
+
 class AppStrings {
   static const String ticketsStorage = 'Хранение билетов';
   static const String noTickets = 'Здесь пока ничего нет';

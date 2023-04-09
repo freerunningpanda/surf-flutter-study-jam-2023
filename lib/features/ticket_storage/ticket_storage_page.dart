@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../res/app_colors.dart';
 import '../../res/app_strings.dart';
 import '../../res/app_typography.dart';
+import 'screens/empty_screen.dart';
 
 
 /// Экран “Хранения билетов”.
@@ -20,6 +21,7 @@ class TicketStoragePage extends StatelessWidget {
           style: AppTypography.textText22Regular,
         ),
       ),
+      body: const EmptyScreen(),
     );
   }
 }
