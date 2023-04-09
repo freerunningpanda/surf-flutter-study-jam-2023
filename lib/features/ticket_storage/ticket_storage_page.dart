@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:surf_flutter_study_jam_2023/features/ticket_storage/screens/empty_screen.dart';
 
+import '../../bloc/add_ticket_bloc.dart';
 import '../../res/app_colors.dart';
 import '../../res/app_strings.dart';
 import '../../res/app_typography.dart';
-// import 'screens/empty_screen.dart';
 import 'screens/tickets_screen.dart';
 import 'widgets/add_button.dart';
 
@@ -13,11 +15,19 @@ class TicketStoragePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: _AppBar(),
-      body: TicketsScreen(),
-      floatingActionButton: AddButton(),
+      appBar: const _AppBar(),
+      body: BlocBuilder<AddTicketBloc, AddTicketState>(
+        builder: (context, state) {
+          if (state.ticketList.isEmpty) {
+            return const EmptyScreen();
+          } else {
+            return const TicketsScreen();
+          }
+        },
+      ),
+      floatingActionButton: const AddButton(),
     );
   }
 }
