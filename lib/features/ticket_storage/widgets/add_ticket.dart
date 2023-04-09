@@ -22,6 +22,7 @@ class _AddTicketState extends State<AddTicket> {
   final controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isPressed = false;
+  bool isValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +89,7 @@ class _AddTicketState extends State<AddTicket> {
                 setState(
                   () {
                     isPressed = false;
+                    isValidate = false;
                   },
                 );
 
@@ -107,7 +109,10 @@ class _AddTicketState extends State<AddTicket> {
               },
             ),
             const SizedBox(height: 30),
-            _AddButton(url: controller.text),
+            _AddButton(
+              url: controller.text,
+              isValidate: isValidate,
+            ),
           ],
         ),
       ),
@@ -118,13 +123,26 @@ class _AddTicketState extends State<AddTicket> {
   String? validator(String? value) {
     const String pattern = r'^(?:http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(?:\/[\w\-\.\/]*)*\/?$';
     RegExp regExp = RegExp(pattern);
+
+    // Если символы соответствуют структуре url - Ок
+    if (regExp.hasMatch(value ?? '')) {
+      setState(() {
+        isValidate = true;
+      });
+    }
     // Если поле пустое - выдаст ошибку
     if (value == null || value.isEmpty) {
+      setState(() {
+        isValidate = false;
+      });
       return AppStrings.enterUrl;
     }
 
     // Если символы не соответствуют структуре url - выдаст ошибку
     if (!regExp.hasMatch(value)) {
+      setState(() {
+        isValidate = false;
+      });
       return AppStrings.validateUrl;
     }
     return null;
@@ -134,9 +152,11 @@ class _AddTicketState extends State<AddTicket> {
 /// Виджет кнопки "Добавить"
 class _AddButton extends StatelessWidget {
   final String url;
+  final bool isValidate;
   const _AddButton({
     Key? key,
     required this.url,
+    required this.isValidate,
   }) : super(key: key);
 
   @override
@@ -144,47 +164,21 @@ class _AddButton extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final radius = BorderRadius.circular(50.0);
 
-    return Stack(
-      children: [
-        SizedBox(
-          width: size.width / 2.5,
-          height: size.height / 14,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: radius,
-              color: AppColors.appGrey,
-            ),
-            child: const Center(
-              child: Text(
-                AppStrings.add,
-                style: AppTypography.text16RegularBtnWhite,
-              ),
-            ),
+    return SizedBox(
+      width: size.width / 2.5,
+      height: size.height / 14,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: radius,
+          color: isValidate ? AppColors.ticketTitleColor : AppColors.appGrey,
+        ),
+        child: const Center(
+          child: Text(
+            AppStrings.add,
+            style: AppTypography.text16RegularBtnWhite,
           ),
         ),
-        Positioned.fill(
-          child: Material(
-            type: MaterialType.transparency,
-            child: InkWell(
-              borderRadius: radius,
-              // onTap: () {
-              //   /// Парсим uri пришедший с формы
-              //   final uri = Uri.parse(url);
-
-              //   /// Формируем название из конечного пути ссылки
-              //   final ticketName = uri.pathSegments.last;
-              //   Storage.list.add(
-              //     Ticket(title: ticketName),
-              //   );
-              //   context.read<AddTicketBloc>().add(
-              //         AddTicketEvent(ticketList: Storage.list),
-              //       );
-              //   Navigator.pop(context);
-              // },
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
