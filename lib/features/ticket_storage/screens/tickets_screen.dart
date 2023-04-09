@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/storage/tickets.dart';
+import '../../../bloc/add_ticket_bloc.dart';
 import '../widgets/ticket_widget.dart';
 
-class TicketsScreen extends StatefulWidget {
+class TicketsScreen extends StatelessWidget {
   const TicketsScreen({Key? key}) : super(key: key);
 
   @override
-  State<TicketsScreen> createState() => _TicketsScreenState();
-}
-
-class _TicketsScreenState extends State<TicketsScreen> {
-  final list = Storage.list;
-
-  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (_, index) {
-          final ticket = list[index];
-          return TicketWidget(title: ticket.title);
-        });
+    return BlocBuilder<AddTicketBloc, AddTicketState>(
+      builder: (context, state) {
+        return ListView.builder(
+            itemCount: state.listLength,
+            itemBuilder: (_, index) {
+              final ticket = state.ticketList[index];
+              return TicketWidget(title: ticket.title);
+            });
+      },
+    );
   }
 }

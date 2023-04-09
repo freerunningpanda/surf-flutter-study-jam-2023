@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:surf_flutter_study_jam_2023/data/model/ticket.dart';
 import 'package:surf_flutter_study_jam_2023/res/app_colors.dart';
 
+import '../../../bloc/add_ticket_bloc.dart';
 import '../../../data/storage/tickets.dart';
 import '../../../res/app_strings.dart';
 import '../../../res/app_typography.dart';
@@ -91,14 +93,9 @@ class _AddTicketState extends State<AddTicket> {
 }
 
 /// Виджет кнопки "Добавить"
-class _AddButton extends StatefulWidget {
+class _AddButton extends StatelessWidget {
   const _AddButton({Key? key}) : super(key: key);
 
-  @override
-  State<_AddButton> createState() => _AddButtonState();
-}
-
-class _AddButtonState extends State<_AddButton> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -129,8 +126,11 @@ class _AddButtonState extends State<_AddButton> {
               borderRadius: radius,
               onTap: () {
                 Storage.list.add(
-                  Ticket(title: 'Ticket 2'),
+                  Ticket(title: 'Ticket 1'),
                 );
+                context.read<AddTicketBloc>().add(
+                      AddTicketEvent(ticketList: Storage.list),
+                    );
                 Navigator.pop(context);
               },
             ),

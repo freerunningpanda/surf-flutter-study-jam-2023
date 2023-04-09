@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_study_jam_2023/features/ticket_storage/ticket_storage_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/add_ticket_bloc.dart';
+import 'features/ticket_storage/ticket_storage_page.dart';
 import 'res/app_colors.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider<AddTicketBloc>(
+      create: (_) => AddTicketBloc(),
+    ),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Async Tour',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         bottomSheetTheme: const BottomSheetThemeData(
