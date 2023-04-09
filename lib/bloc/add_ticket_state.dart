@@ -13,7 +13,7 @@ class AddTicketState extends Equatable {
 
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [ticketList, listLength];
 
 
 }
