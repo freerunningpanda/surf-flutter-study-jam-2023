@@ -7,25 +7,36 @@ import '../../res/app_typography.dart';
 import 'screens/tickets_screen.dart';
 import 'widgets/add_button.dart';
 
-
 /// Экран “Хранения билетов”.
 class TicketStoragePage extends StatelessWidget {
   const TicketStoragePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.appBarColor,
-        title: const Text(
-          AppStrings.ticketsStorage,
-          style: AppTypography.text22Regular,
-        ),
+      appBar: _AppBar(),
+      body: TicketsScreen(),
+      floatingActionButton: AddButton(),
+    );
+  }
+}
+
+class _AppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Size get preferredSize => const Size.fromHeight(85);
+
+  const _AppBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: AppColors.appBarColor,
+      title: const Text(
+        AppStrings.ticketsStorage,
+        style: AppTypography.text22Regular,
       ),
-      body: const TicketsScreen(),
-      floatingActionButton: const AddButton(),
     );
   }
 }
