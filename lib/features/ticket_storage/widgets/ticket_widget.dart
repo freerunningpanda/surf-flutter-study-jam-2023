@@ -19,6 +19,7 @@ class TicketWidget extends StatefulWidget {
 }
 
 class _TicketWidgetState extends State<TicketWidget> {
+  late CancelToken _cancelToken;
   bool _isDownloadStarted = false;
 
   bool _isDownloadFinished = false;
@@ -26,6 +27,12 @@ class _TicketWidgetState extends State<TicketWidget> {
   int _downloadedSizeInBytes = 0;
   int _totalSizeInBytes = -1;
   double _progress = 0.0;
+
+  @override
+  void initState() {
+    _cancelToken = CancelToken();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +69,7 @@ class _TicketWidgetState extends State<TicketWidget> {
               ),
               const SizedBox(height: 5),
               // const Text('${AppStrings.loading} 0.0 ${AppStrings.from} 0.0',
-              if (!_isDownloadStarted)
+              if (!_isDownloadStarted && _progress == 0)
                 const Text(
                   AppStrings.waiting,
                   style: AppTypography.text16RegularDescription,
@@ -84,15 +91,18 @@ class _TicketWidgetState extends State<TicketWidget> {
             onTap: _isDownloadFinished ? null : () => openFile(fileName: widget.title, url: widget.url),
             child: Column(
               children: [
-                if (!_isDownloadStarted)
+                if (!_isDownloadStarted && _progress == 0)
                   const Icon(
                     Icons.cloud_download_outlined,
                     color: AppColors.ticketTitleColor,
                   ),
                 if (_progress > 0.0 && !_isDownloadFinished)
-                  const Icon(
-                    Icons.pause_circle_outline,
-                    color: AppColors.ticketTitleColor,
+                  GestureDetector(
+                    onTap: _isDownloadStarted ? _pauseDownload : null,
+                    child: const Icon(
+                      Icons.pause_circle_outline,
+                      color: AppColors.ticketTitleColor,
+                    ),
                   ),
                 if (_isDownloadFinished)
                   const Icon(
@@ -106,6 +116,14 @@ class _TicketWidgetState extends State<TicketWidget> {
         ],
       ),
     );
+  }
+
+  /// Метод остановки загрузки
+  void _pauseDownload() {
+    setState(() {
+      _isDownloadStarted = false;
+    });
+    _cancelToken.cancel();
   }
 
   // Метод открытия файла
@@ -147,6 +165,7 @@ class _TicketWidgetState extends State<TicketWidget> {
             });
           }
         },
+        cancelToken: _cancelToken,
       );
       setState(() {
         _isDownloadFinished = true;
