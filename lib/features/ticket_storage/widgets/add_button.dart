@@ -43,6 +43,8 @@ class AddButton extends StatelessWidget {
               borderRadius: radius,
               onTap: () async {
                 await showModalBottomSheet(
+                  elevation: 0,
+                  isScrollControlled: true,
                   context: context,
                   builder: (_) => const AddTicket(),
                 );
