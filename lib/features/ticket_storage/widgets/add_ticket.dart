@@ -20,7 +20,10 @@ class AddTicket extends StatefulWidget {
 
 class _AddTicketState extends State<AddTicket> {
   final controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool isPressed = false;
+
+  final checkUrl = RegExp(r'^(?:http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(?:\/[\w\-\.\/]*)*\/?$');
 
   @override
   Widget build(BuildContext context) {
@@ -39,58 +42,88 @@ class _AddTicketState extends State<AddTicket> {
         ),
         color: AppColors.backgroundColor,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 8, bottom: 40),
-            width: size.width / 9,
-            height: size.height * 0.007,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(radius),
-              color: AppColors.appGrey,
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              label: const Text(
-                AppStrings.enterUrl,
-                style: AppTypography.text14Light,
-              ),
-              hintText: AppStrings.enterUrl,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(width: 2, color: AppColors.buttonTextColor),
-                borderRadius: textFieldRadius,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColors.appGrey),
-                borderRadius: textFieldRadius,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 8, bottom: 40),
+              width: size.width / 9,
+              height: size.height * 0.007,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(radius),
+                color: AppColors.appGrey,
               ),
             ),
-            onChanged: (value) => controller.text = value,
-            onTap: () {
-              /// Для смены размера боттомшита при нажатии на текстовое поле
-              setState(
-                () {
-                  isPressed = true;
-                },
-              );
-            },
-            onFieldSubmitted: (value) {
-              /// Для возврата размера боттомшита при отправке данных
-              setState(
-                () {
-                  isPressed = false;
-                },
-              );
-            },
-          ),
-          const SizedBox(height: 30),
-          _AddButton(url: controller.text),
-        ],
+            TextFormField(
+              key: const Key('url'),
+              controller: controller,
+              validator: validator,
+              decoration: InputDecoration(
+                label: const Text(
+                  AppStrings.enterUrl,
+                  style: AppTypography.text14Light,
+                ),
+                hintText: AppStrings.enterUrl,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 2, color: AppColors.buttonTextColor),
+                  borderRadius: textFieldRadius,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: AppColors.appGrey),
+                  borderRadius: textFieldRadius,
+                ),
+              ),
+              // onChanged: (value) => controller.text = value,
+              onTap: () {
+                /// Для смены размера боттомшита при нажатии на текстовое поле
+                setState(
+                  () {
+                    isPressed = true;
+                  },
+                );
+              },
+              onFieldSubmitted: (value) {
+                /// Для возврата размера боттомшита при отправке данных
+                setState(
+                  () {
+                    isPressed = false;
+                  },
+                );
+
+                if (_formKey.currentState!.validate()) {
+                  final uri = Uri.parse(value);
+
+                  /// Формируем название из конечного пути ссылки
+                  final ticketName = uri.pathSegments.last;
+                  Storage.list.add(
+                    Ticket(title: ticketName),
+                  );
+                  context.read<AddTicketBloc>().add(
+                        AddTicketEvent(ticketList: Storage.list),
+                      );
+                  Navigator.pop(context);
+                }
+              },
+            ),
+            const SizedBox(height: 30),
+            _AddButton(url: controller.text),
+          ],
+        ),
       ),
     );
+  }
+
+  String? validator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a URL';
+    }
+    if (!checkUrl.hasMatch(value)) {
+      return 'Invalid URL format';
+    }
+    return null;
   }
 }
 
@@ -130,19 +163,20 @@ class _AddButton extends StatelessWidget {
             type: MaterialType.transparency,
             child: InkWell(
               borderRadius: radius,
-              onTap: () {
-                /// Парсим uri пришедший с формы
-                final uri = Uri.parse(url);
-                /// Формируем название из конечного пути ссылки
-                final ticketName = uri.pathSegments.last;
-                Storage.list.add(
-                  Ticket(title: ticketName),
-                );
-                context.read<AddTicketBloc>().add(
-                      AddTicketEvent(ticketList: Storage.list),
-                    );
-                Navigator.pop(context);
-              },
+              // onTap: () {
+              //   /// Парсим uri пришедший с формы
+              //   final uri = Uri.parse(url);
+
+              //   /// Формируем название из конечного пути ссылки
+              //   final ticketName = uri.pathSegments.last;
+              //   Storage.list.add(
+              //     Ticket(title: ticketName),
+              //   );
+              //   context.read<AddTicketBloc>().add(
+              //         AddTicketEvent(ticketList: Storage.list),
+              //       );
+              //   Navigator.pop(context);
+              // },
             ),
           ),
         ),
