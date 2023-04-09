@@ -87,7 +87,7 @@ class _AddTicketState extends State<AddTicket> {
             },
           ),
           const SizedBox(height: 30),
-          _AddButton(title: controller.text),
+          _AddButton(url: controller.text),
         ],
       ),
     );
@@ -96,10 +96,10 @@ class _AddTicketState extends State<AddTicket> {
 
 /// Виджет кнопки "Добавить"
 class _AddButton extends StatelessWidget {
-  final String title;
+  final String url;
   const _AddButton({
     Key? key,
-    required this.title,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -131,8 +131,10 @@ class _AddButton extends StatelessWidget {
             child: InkWell(
               borderRadius: radius,
               onTap: () {
+                final uri = Uri.parse(url);
+                final ticketName = uri.pathSegments.last;
                 Storage.list.add(
-                  Ticket(title: title),
+                  Ticket(title: ticketName),
                 );
                 context.read<AddTicketBloc>().add(
                       AddTicketEvent(ticketList: Storage.list),
