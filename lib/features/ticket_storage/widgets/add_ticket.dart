@@ -50,7 +50,7 @@ class _AddTicketState extends State<AddTicket> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 22.0),
       width: size.width,
-      height: _isPressed ? size.height / 1.3 : size.height / 2.9,
+      height: _isPressed ? size.height / 1.2 : size.height / 2.4,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: radius,
