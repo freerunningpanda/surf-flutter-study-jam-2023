@@ -68,7 +68,6 @@ class _TicketWidgetState extends State<TicketWidget> {
                 ),
               ),
               const SizedBox(height: 5),
-              // const Text('${AppStrings.loading} 0.0 ${AppStrings.from} 0.0',
               if (!_isDownloadStarted && _progress == 0)
                 const Text(
                   AppStrings.waiting,
