@@ -131,7 +131,9 @@ class _AddButton extends StatelessWidget {
             child: InkWell(
               borderRadius: radius,
               onTap: () {
+                /// Парсим uri пришедший с формы
                 final uri = Uri.parse(url);
+                /// Формируем название из конечного пути ссылки
                 final ticketName = uri.pathSegments.last;
                 Storage.list.add(
                   Ticket(title: ticketName),
