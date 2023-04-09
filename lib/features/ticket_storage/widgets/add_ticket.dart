@@ -122,6 +122,11 @@ class _AddTicketState extends State<AddTicket> {
                         AddTicketEvent(ticketList: Storage.list),
                       );
                   Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(AppStrings.succesAddUrl),
+                    ),
+                  );
                 }
               },
             ),
