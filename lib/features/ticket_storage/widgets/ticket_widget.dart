@@ -43,18 +43,13 @@ class _TicketWidgetState extends State<TicketWidget> {
                 style: AppTypography.text16RegularTitle,
               ),
               const SizedBox(height: 5),
-              // Container(
-              //   width: size.width / 1.45,
-              //   height: 3,
-              //   color: AppColors.ticketTitleColor,
-              // ),
               SizedBox(
                 height: 3,
-                width: 200,
+                width: size.width / 1.5,
                 child: LinearProgressIndicator(
                   value: _progress,
-                  backgroundColor: AppColors.ticketTitleColor,
-                  color: AppColors.appDarkGrey,
+                  backgroundColor: AppColors.appGrey,
+                  color: AppColors.ticketTitleColor,
                 ),
               ),
               const SizedBox(height: 5),
