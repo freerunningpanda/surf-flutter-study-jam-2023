@@ -19,6 +19,7 @@ class AddTicket extends StatefulWidget {
 }
 
 class _AddTicketState extends State<AddTicket> {
+  final controller = TextEditingController();
   bool isPressed = false;
 
   @override
@@ -67,6 +68,7 @@ class _AddTicketState extends State<AddTicket> {
                 borderRadius: textFieldRadius,
               ),
             ),
+            onChanged: (value) => controller.text = value,
             onTap: () {
               /// Для смены размера боттомшита при нажатии на текстовое поле
               setState(
@@ -85,7 +87,7 @@ class _AddTicketState extends State<AddTicket> {
             },
           ),
           const SizedBox(height: 30),
-          const _AddButton(),
+          _AddButton(title: controller.text),
         ],
       ),
     );
@@ -94,7 +96,11 @@ class _AddTicketState extends State<AddTicket> {
 
 /// Виджет кнопки "Добавить"
 class _AddButton extends StatelessWidget {
-  const _AddButton({Key? key}) : super(key: key);
+  final String title;
+  const _AddButton({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -126,13 +132,7 @@ class _AddButton extends StatelessWidget {
               borderRadius: radius,
               onTap: () {
                 Storage.list.add(
-                  Ticket(title: 'Ticket 1'),
-                );
-                Storage.list.add(
-                  Ticket(title: 'Ticket 1'),
-                );
-                Storage.list.add(
-                  Ticket(title: 'Ticket 1'),
+                  Ticket(title: title),
                 );
                 context.read<AddTicketBloc>().add(
                       AddTicketEvent(ticketList: Storage.list),

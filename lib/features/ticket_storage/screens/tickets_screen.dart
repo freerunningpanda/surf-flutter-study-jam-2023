@@ -12,14 +12,15 @@ class TicketsScreen extends StatelessWidget {
     return BlocBuilder<AddTicketBloc, AddTicketState>(
       builder: (context, state) {
         return ListView.builder(
-            itemCount: state.listLength,
-            itemBuilder: (_, index) {
-              final ticket = state.ticketList[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: TicketWidget(title: ticket.title),
-              );
-            });
+          itemCount: state.listLength,
+          itemBuilder: (_, index) {
+            final ticket = state.ticketList[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: TicketWidget(title: ticket.title),
+            );
+          },
+        );
       },
     );
   }
