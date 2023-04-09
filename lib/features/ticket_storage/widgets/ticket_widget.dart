@@ -19,6 +19,8 @@ class TicketWidget extends StatefulWidget {
 }
 
 class _TicketWidgetState extends State<TicketWidget> {
+  double _progress = 0.0;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -41,10 +43,19 @@ class _TicketWidgetState extends State<TicketWidget> {
                 style: AppTypography.text16RegularTitle,
               ),
               const SizedBox(height: 5),
-              Container(
-                width: size.width / 1.45,
+              // Container(
+              //   width: size.width / 1.45,
+              //   height: 3,
+              //   color: AppColors.ticketTitleColor,
+              // ),
+              SizedBox(
                 height: 3,
-                color: AppColors.ticketTitleColor,
+                width: 200,
+                child: LinearProgressIndicator(
+                  value: _progress,
+                  backgroundColor: AppColors.ticketTitleColor,
+                  color: AppColors.appDarkGrey,
+                ),
               ),
               const SizedBox(height: 5),
               // const Text('${AppStrings.loading} 0.0 ${AppStrings.from} 0.0',
@@ -56,9 +67,7 @@ class _TicketWidgetState extends State<TicketWidget> {
           ),
           const SizedBox(width: 14),
           GestureDetector(
-            onTap: () => openFile(
-              fileName: widget.title,
-              url: widget.url),
+            onTap: () => openFile(fileName: widget.title, url: widget.url),
             child: const Icon(
               Icons.pause_circle_outline,
               color: AppColors.ticketTitleColor,
@@ -73,10 +82,12 @@ class _TicketWidgetState extends State<TicketWidget> {
   // Метод открытия файла
   Future openFile({required String url, String? fileName}) async {
     final file = await downloadFile(url, fileName!);
+
     /// Проверяем если наш файл не Null
     if (file == null) return;
 
     debugPrint('Path: ${file.path}');
+
     /// Мы можем открыть этот файл
     OpenFile.open(file.path);
   }
@@ -95,8 +106,15 @@ class _TicketWidgetState extends State<TicketWidget> {
           followRedirects: false,
           receiveTimeout: const Duration(seconds: 20),
         ),
+        onReceiveProgress: (count, total) {
+          if (total != -1) {
+            setState(() {
+              _progress = count / total;
+            });
+          }
+        },
       );
-      
+
       // Открываем файл в режиме записи и записываем в него данные
       final raf = file.openSync(mode: FileMode.write);
       raf.writeFromSync(response.data);
