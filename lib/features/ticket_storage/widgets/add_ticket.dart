@@ -128,6 +128,12 @@ class _AddButton extends StatelessWidget {
                 Storage.list.add(
                   Ticket(title: 'Ticket 1'),
                 );
+                Storage.list.add(
+                  Ticket(title: 'Ticket 1'),
+                );
+                Storage.list.add(
+                  Ticket(title: 'Ticket 1'),
+                );
                 context.read<AddTicketBloc>().add(
                       AddTicketEvent(ticketList: Storage.list),
                     );
