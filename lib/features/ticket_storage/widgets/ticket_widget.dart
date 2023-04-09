@@ -21,7 +21,7 @@ class TicketWidget extends StatefulWidget {
 class _TicketWidgetState extends State<TicketWidget> {
   bool _isDownloadStarted = false;
 
-  bool _isDownloadFinish = false;
+  bool _isDownloadFinished = false;
 
   double _progress = 0.0;
 
@@ -58,10 +58,12 @@ class _TicketWidgetState extends State<TicketWidget> {
               ),
               const SizedBox(height: 5),
               // const Text('${AppStrings.loading} 0.0 ${AppStrings.from} 0.0',
-              // const Text(
-              //   AppStrings.waiting,
-              //   style: AppTypography.text16RegularDescription,
-              // ),
+              if (!_isDownloadStarted)
+                const Text(
+                  AppStrings.waiting,
+                  style: AppTypography.text16RegularDescription,
+                ),
+              if (_progress > 0.0)
               Text(
                 '${AppStrings.loading} ${(_progress * 100).toStringAsFixed(1)}% ${AppStrings.from} 100%',
                 style: AppTypography.text16RegularDescription,
@@ -102,6 +104,9 @@ class _TicketWidgetState extends State<TicketWidget> {
 
     try {
       // Скачиваем файл
+      setState(() {
+        _isDownloadStarted = true;
+      });
       final response = await Dio().get(
         url,
         options: Options(
