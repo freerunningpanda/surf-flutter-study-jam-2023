@@ -116,7 +116,10 @@ class _AddTicketState extends State<AddTicket> {
                   /// Формируем название из конечного пути ссылки
                   final ticketName = uri.pathSegments.last;
                   Storage.list.add(
-                    Ticket(title: ticketName),
+                    Ticket(
+                      fileName: ticketName,
+                      url: value,
+                    ),
                   );
                   context.read<AddTicketBloc>().add(
                         AddTicketEvent(ticketList: Storage.list),

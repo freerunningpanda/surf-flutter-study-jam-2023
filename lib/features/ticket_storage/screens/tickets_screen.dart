@@ -17,7 +17,10 @@ class TicketsScreen extends StatelessWidget {
             final ticket = state.ticketList[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 30),
-              child: TicketWidget(title: ticket.title),
+              child: TicketWidget(
+                title: ticket.fileName,
+                url: ticket.url,
+              ),
             );
           },
         );

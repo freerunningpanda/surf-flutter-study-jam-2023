@@ -1,13 +1,24 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../res/app_colors.dart';
 import '../../../res/app_strings.dart';
 import '../../../res/app_typography.dart';
 
-class TicketWidget extends StatelessWidget {
+class TicketWidget extends StatefulWidget {
   final String title;
-  const TicketWidget({Key? key, required this.title}) : super(key: key);
+  final String url;
+  const TicketWidget({Key? key, required this.title, required this.url}) : super(key: key);
 
+  @override
+  State<TicketWidget> createState() => _TicketWidgetState();
+}
+
+class _TicketWidgetState extends State<TicketWidget> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -27,7 +38,7 @@ class TicketWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                widget.title,
                 style: AppTypography.text16RegularTitle,
               ),
               const SizedBox(height: 5),
@@ -38,18 +49,59 @@ class TicketWidget extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               // const Text('${AppStrings.loading} 0.0 ${AppStrings.from} 0.0',
-              const Text(AppStrings.waiting,
-              style: AppTypography.text16RegularDescription,),
+              const Text(
+                AppStrings.waiting,
+                style: AppTypography.text16RegularDescription,
+              ),
             ],
           ),
           const SizedBox(width: 14),
-          const Icon(
-            Icons.pause_circle_outline,
-            color: AppColors.ticketTitleColor,
+          GestureDetector(
+            onTap: () => openFile(
+              fileName: widget.title,
+              url: widget.url),
+            child: const Icon(
+              Icons.pause_circle_outline,
+              color: AppColors.ticketTitleColor,
+            ),
           ),
           const SizedBox(width: 16),
         ],
       ),
     );
+  }
+
+  Future openFile({required String url, String? fileName}) async {
+    final file = await downloadFile(url, fileName!);
+    if (file == null) return;
+
+    debugPrint('Path: ${file.path}');
+
+    OpenFile.open(file.path);
+  }
+
+  /// Скачать файл с приватную папку невидимую для пользователя
+  Future<File?> downloadFile(String url, String name) async {
+    final appStorage = await getApplicationDocumentsDirectory();
+    final file = File('${appStorage.path}/$name');
+
+    try {
+      final response = await Dio().get(
+        url,
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+          receiveTimeout: const Duration(seconds: 20),
+        ),
+      );
+
+      final raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await raf.close();
+
+      return file;
+    } catch (e) {
+      return null;
+    }
   }
 }

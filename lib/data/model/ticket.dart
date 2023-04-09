@@ -1,7 +1,9 @@
 class Ticket {
-  final String title;
+  final String fileName;
+  final String url;
 
   Ticket({
-    required this.title,
+    required this.fileName,
+    required this.url,
   });
 }
