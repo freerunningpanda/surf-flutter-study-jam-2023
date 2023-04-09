@@ -9,6 +9,6 @@ class AppStrings {
   static const String waiting = 'Ожидает начала загрузки';
   static const String loading = 'Загружается';
   static const String from = 'из';
-  static const String loaded = 'загружен';
+  static const String loaded = 'Файл загружен';
   static const String succesAddUrl = 'Ссылка успешно добавлена!';
 }

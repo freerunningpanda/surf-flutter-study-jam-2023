@@ -63,11 +63,16 @@ class _TicketWidgetState extends State<TicketWidget> {
                   AppStrings.waiting,
                   style: AppTypography.text16RegularDescription,
                 ),
-              if (_progress > 0.0)
-              Text(
-                '${AppStrings.loading} ${(_progress * 100).toStringAsFixed(1)}% ${AppStrings.from} 100%',
-                style: AppTypography.text16RegularDescription,
-              ),
+              if (_progress > 0.0 && !_isDownloadFinished)
+                Text(
+                  '${AppStrings.loading} ${(_progress * 100).toStringAsFixed(1)}% ${AppStrings.from} 100%',
+                  style: AppTypography.text16RegularDescription,
+                ),
+              if (_isDownloadFinished)
+                const Text(
+                  AppStrings.loaded,
+                  style: AppTypography.text16RegularDescription,
+                ),
             ],
           ),
           const SizedBox(width: 14),
@@ -122,7 +127,9 @@ class _TicketWidgetState extends State<TicketWidget> {
           }
         },
       );
-
+      setState(() {
+        _isDownloadFinished = true;
+      });
       // Открываем файл в режиме записи и записываем в него данные
       final raf = file.openSync(mode: FileMode.write);
       raf.writeFromSync(response.data);
