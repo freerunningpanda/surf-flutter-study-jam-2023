@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../res/app_colors.dart';
 import '../../res/app_strings.dart';
 import '../../res/app_typography.dart';
-import 'screens/empty_screen.dart';
+// import 'screens/empty_screen.dart';
+import 'screens/tickets_screen.dart';
 import 'widgets/add_button.dart';
 
 
@@ -23,7 +24,7 @@ class TicketStoragePage extends StatelessWidget {
           style: AppTypography.text22Regular,
         ),
       ),
-      body: const EmptyScreen(),
+      body: const TicketsScreen(),
       floatingActionButton: const AddButton(),
     );
   }
