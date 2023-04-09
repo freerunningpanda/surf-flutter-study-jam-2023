@@ -23,11 +23,15 @@ class _TicketWidgetState extends State<TicketWidget> {
 
   bool _isDownloadFinished = false;
 
+  int _downloadedSizeInBytes = 0;
+  int _totalSizeInBytes = -1;
   double _progress = 0.0;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final downloadedSizeInMB = _downloadedSizeInBytes / (1024 * 1024);
+    final totalSizeInMB = _totalSizeInBytes / (1024 * 1024);
 
     return SizedBox(
       width: size.width,
@@ -65,7 +69,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                 ),
               if (_progress > 0.0 && !_isDownloadFinished)
                 Text(
-                  '${AppStrings.loading} ${(_progress * 100).toStringAsFixed(1)}% ${AppStrings.from} 100%',
+                  '${AppStrings.loading} ${downloadedSizeInMB.toStringAsFixed(2)} ${AppStrings.from} ${totalSizeInMB.toStringAsFixed(2)}',
                   style: AppTypography.text16RegularDescription,
                 ),
               if (_isDownloadFinished)
@@ -112,6 +116,7 @@ class _TicketWidgetState extends State<TicketWidget> {
       setState(() {
         _isDownloadStarted = true;
       });
+      int totalSizeInBytes = 0;
       final response = await Dio().get(
         url,
         options: Options(
@@ -122,9 +127,12 @@ class _TicketWidgetState extends State<TicketWidget> {
         onReceiveProgress: (count, total) {
           if (total != -1) {
             setState(() {
+              _downloadedSizeInBytes = count;
+              _totalSizeInBytes = total;
               _progress = count / total;
             });
           }
+          totalSizeInBytes = total;
         },
       );
       setState(() {
